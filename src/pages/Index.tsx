@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut, Settings } from "lucide-react";
 import logo from "@/assets/logo.jpg";
-
-const SHOP_NAME_KEY = "shop_name";
-export const getShopName = () => localStorage.getItem(SHOP_NAME_KEY) || "Coffee Corner";
-export const setShopName = (name: string) => localStorage.setItem(SHOP_NAME_KEY, name);
+import { getShopName } from "@/lib/shopSettings";
 
 const categories = [
 { key: "all", label: "All" },
@@ -37,28 +34,24 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    let mounted = true;
     const fetchProducts = async () => {
       try {
         const { data, error } = await supabase
           .from("products")
           .select("*")
           .order("created_at", { ascending: false });
-        if (!mounted) return;
         if (error) {
-          console.error("Products fetch error:", error.message, error.details, error.hint, error.code);
-          setLoading(false);
+          console.error("Products fetch error:", error.message, error.code, error.hint);
           return;
         }
         setProducts((data as Product[]) || []);
       } catch (e) {
         console.error("Products fetch exception:", e);
       } finally {
-        if (mounted) setLoading(false);
+        setLoading(false);
       }
     };
     fetchProducts();
-    return () => { mounted = false; };
   }, []);
 
   const filtered = activeCategory === "all" ?
