@@ -67,6 +67,17 @@ export default function Admin() {
     fetchProducts();
   }, []);
 
+  // Auto-open edit dialog if navigated from menu page with a product
+  useEffect(() => {
+    const editProduct = location.state?.editProduct;
+    if (editProduct) {
+      handleEdit(editProduct);
+      // Clear the state so it doesn't re-open on refresh
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
+
   const fetchProducts = async () => {
     const { data } = await supabase
       .from("products")
