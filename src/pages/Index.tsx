@@ -23,12 +23,14 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let mounted = true;
     const fetchProducts = async () => {
       try {
         const { data, error } = await supabase
           .from("products")
           .select("*")
           .order("created_at", { ascending: false });
+        if (!mounted) return;
         if (error) {
           console.error("Products fetch error:", error.message, error.details, error.hint);
         }
@@ -36,10 +38,11 @@ const Index = () => {
       } catch (e) {
         console.error("Products fetch exception:", e);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
     fetchProducts();
+    return () => { mounted = false; };
   }, []);
 
   const filtered = activeCategory === "all"
