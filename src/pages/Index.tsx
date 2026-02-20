@@ -23,8 +23,10 @@ const Index = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [shopName, setShopNameState] = useState(getShopName());
+  const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("lang") as Lang) || "en");
   const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
+  const t = translations[lang];
 
   useEffect(() => {
     const onStorage = () => setShopNameState(getShopName());
