@@ -34,28 +34,24 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    let mounted = true;
     const fetchProducts = async () => {
       try {
         const { data, error } = await supabase
           .from("products")
           .select("*")
           .order("created_at", { ascending: false });
-        if (!mounted) return;
         if (error) {
-          console.error("Products fetch error:", error.message, error.details, error.hint, error.code);
-          setLoading(false);
+          console.error("Products fetch error:", error.message, error.code, error.hint);
           return;
         }
         setProducts((data as Product[]) || []);
       } catch (e) {
         console.error("Products fetch exception:", e);
       } finally {
-        if (mounted) setLoading(false);
+        setLoading(false);
       }
     };
     fetchProducts();
-    return () => { mounted = false; };
   }, []);
 
   const filtered = activeCategory === "all" ?
