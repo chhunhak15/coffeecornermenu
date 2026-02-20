@@ -3,7 +3,7 @@ export type Lang = "en" | "zh" | "vi";
 export const translations = {
   en: {
     menuTitle: "Our Drink Menu",
-    menuSubtitle: "Handcrafted beverages made with love and the finest ingredients.",
+    menuSubtitle: "Cambodian handmade, Cambodian taste, Cambodian Style",
     loading: "Loading menu...",
     noItems: "No drinks in this category yet.",
     adminLogin: "Admin Login",
