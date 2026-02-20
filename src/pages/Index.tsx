@@ -5,7 +5,8 @@ import { Product } from "@/lib/types";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Coffee, LogIn, LogOut, Settings } from "lucide-react";
+import { LogIn, LogOut, Settings } from "lucide-react";
+import logo from "@/assets/logo.jpg";
 
 const categories = [
 { key: "all", label: "All" },
@@ -54,8 +55,8 @@ const Index = () => {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b">
         <div className="container mx-auto flex items-center justify-between py-4 px-4">
           <div className="flex items-center gap-3">
-            <Coffee className="h-7 w-7 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">Coffee Corner </h1>
+          <img src={logo} alt="Coffee Corner Logo" className="h-10 w-auto" />
+
           </div>
           <div className="flex items-center gap-2">
             {user ?
