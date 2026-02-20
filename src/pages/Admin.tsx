@@ -227,7 +227,8 @@ export default function Admin() {
           <CardHeader>
             <CardTitle className="text-lg">Shop Settings</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-6">
+            {/* Shop Name */}
             <div className="flex items-end gap-3 max-w-sm">
               <div className="flex-1 space-y-2">
                 <Label>Shop Name</Label>
@@ -241,6 +242,50 @@ export default function Admin() {
               <Button onClick={handleSaveShopName} className="gap-2">
                 <Save className="h-4 w-4" /> Save
               </Button>
+            </div>
+
+            {/* Shop Logo */}
+            <div className="space-y-2">
+              <Label>Shop Logo</Label>
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-lg border overflow-hidden flex items-center justify-center bg-muted">
+                  {shopLogoUrl ? (
+                    <img src={shopLogoUrl} alt="Shop Logo" className="h-full w-full object-cover" />
+                  ) : (
+                    <ImageIcon className="h-7 w-7 text-muted-foreground" />
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="gap-2"
+                    disabled={logoUploading}
+                    onClick={() => logoInputRef.current?.click()}
+                  >
+                    <Upload className="h-4 w-4" />
+                    {logoUploading ? "Uploading…" : shopLogoUrl ? "Replace Logo" : "Upload Logo"}
+                  </Button>
+                  {shopLogoUrl && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="gap-2 text-destructive hover:text-destructive"
+                      onClick={handleDeleteLogo}
+                    >
+                      <Trash2 className="h-4 w-4" /> Remove
+                    </Button>
+                  )}
+                  <input
+                    ref={logoInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleLogoUpload}
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">Recommended: square image (e.g. 200×200px)</p>
             </div>
           </CardContent>
         </Card>
