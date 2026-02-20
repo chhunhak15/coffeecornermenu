@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { Coffee, LogIn, LogOut, Settings } from "lucide-react";
 
 const categories = [
-  { key: "all", label: "All" },
-  { key: "coffee", label: "Coffee" },
-  { key: "tea", label: "Tea" },
-  { key: "smoothie", label: "Smoothies" },
-  { key: "other", label: "Other" },
-] as const;
+{ key: "all", label: "All" },
+{ key: "coffee", label: "Coffee" },
+{ key: "tea", label: "Tea" },
+{ key: "smoothie", label: "Smoothies" },
+{ key: "other", label: "Other" }] as
+const;
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -26,15 +26,15 @@ const Index = () => {
     let mounted = true;
     const fetchProducts = async () => {
       try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("created_at", { ascending: false });
+        const { data, error } = await supabase.
+        from("products").
+        select("*").
+        order("created_at", { ascending: false });
         if (!mounted) return;
         if (error) {
           console.error("Products fetch error:", error.message, error.details, error.hint);
         }
-        setProducts((data as Product[]) || []);
+        setProducts(data as Product[] || []);
       } catch (e) {
         console.error("Products fetch exception:", e);
       } finally {
@@ -42,12 +42,12 @@ const Index = () => {
       }
     };
     fetchProducts();
-    return () => { mounted = false; };
+    return () => {mounted = false;};
   }, []);
 
-  const filtered = activeCategory === "all"
-    ? products
-    : products.filter((p) => p.category === activeCategory);
+  const filtered = activeCategory === "all" ?
+  products :
+  products.filter((p) => p.category === activeCategory);
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,25 +55,25 @@ const Index = () => {
         <div className="container mx-auto flex items-center justify-between py-4 px-4">
           <div className="flex items-center gap-3">
             <Coffee className="h-7 w-7 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">Brew & Blend</h1>
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">Coffee Corner </h1>
           </div>
           <div className="flex items-center gap-2">
-            {user ? (
-              <>
-                {isAdmin && (
-                  <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="gap-2">
+            {user ?
+            <>
+                {isAdmin &&
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="gap-2">
                     <Settings className="h-4 w-4" /> Dashboard
                   </Button>
-                )}
+              }
                 <Button variant="ghost" size="sm" onClick={signOut} className="gap-2">
                   <LogOut className="h-4 w-4" /> Sign Out
                 </Button>
-              </>
-            ) : (
-              <Button variant="outline" size="sm" onClick={() => navigate("/login")} className="gap-2">
+              </> :
+
+            <Button variant="outline" size="sm" onClick={() => navigate("/login")} className="gap-2">
                 <LogIn className="h-4 w-4" /> Admin Login
               </Button>
-            )}
+            }
           </div>
         </div>
       </header>
@@ -87,35 +87,35 @@ const Index = () => {
 
       <div className="container mx-auto px-4 mb-8">
         <div className="flex flex-wrap gap-2 justify-center">
-          {categories.map((cat) => (
-            <Button
-              key={cat.key}
-              variant={activeCategory === cat.key ? "default" : "secondary"}
-              size="sm"
-              onClick={() => setActiveCategory(cat.key)}
-              className="rounded-full px-5"
-            >
+          {categories.map((cat) =>
+          <Button
+            key={cat.key}
+            variant={activeCategory === cat.key ? "default" : "secondary"}
+            size="sm"
+            onClick={() => setActiveCategory(cat.key)}
+            className="rounded-full px-5">
+
               {cat.label}
             </Button>
-          ))}
+          )}
         </div>
       </div>
 
       <main className="container mx-auto px-4 pb-20">
-        {loading ? (
-          <p className="text-center text-muted-foreground py-12">Loading menu...</p>
-        ) : filtered.length === 0 ? (
-          <p className="text-center text-muted-foreground py-12">No drinks in this category yet.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {loading ?
+        <p className="text-center text-muted-foreground py-12">Loading menu...</p> :
+        filtered.length === 0 ?
+        <p className="text-center text-muted-foreground py-12">No drinks in this category yet.</p> :
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((product) =>
+          <ProductCard key={product.id} product={product} />
+          )}
           </div>
-        )}
+        }
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Index;
