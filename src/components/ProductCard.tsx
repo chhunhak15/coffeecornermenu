@@ -1,6 +1,8 @@
 import { Product } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 import type { Lang } from "@/lib/i18n";
 
 const labelConfig = {
