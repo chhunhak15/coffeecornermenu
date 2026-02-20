@@ -6,8 +6,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut, Settings } from "lucide-react";
-import logo from "@/assets/logo.jpg";
-import { getShopName } from "@/lib/shopSettings";
+import defaultLogo from "@/assets/logo.jpg";
+import { getShopName, getShopLogo } from "@/lib/shopSettings";
 import { translations, type Lang } from "@/lib/i18n";
 
 const categoryKeys = ["all", "coffee", "tea", "smoothie", "other"] as const;
@@ -23,16 +23,22 @@ const Index = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [shopName, setShopNameState] = useState(getShopName());
+  const [shopLogo, setShopLogoState] = useState<string | null>(getShopLogo());
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("lang") as Lang) || "en");
   const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
   const t = translations[lang];
 
   useEffect(() => {
-    const onStorage = () => setShopNameState(getShopName());
+    const onStorage = () => {
+      setShopNameState(getShopName());
+      setShopLogoState(getShopLogo());
+    };
     window.addEventListener("storage", onStorage);
-    // Also poll localStorage in case admin is on same tab
-    const interval = setInterval(() => setShopNameState(getShopName()), 1000);
+    const interval = setInterval(() => {
+      setShopNameState(getShopName());
+      setShopLogoState(getShopLogo());
+    }, 1000);
     return () => { window.removeEventListener("storage", onStorage); clearInterval(interval); };
   }, []);
 
@@ -73,7 +79,7 @@ const Index = () => {
           {/* Main row: logo + auth buttons */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="Shop Logo" className="h-10 w-auto" />
+              <img src={shopLogo || defaultLogo} alt="Shop Logo" className="h-10 w-auto" />
               <span className="text-xl font-bold text-foreground tracking-tight">{shopName}</span>
             </div>
             <div className="flex items-center gap-2">
