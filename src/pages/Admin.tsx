@@ -41,6 +41,12 @@ export default function Admin() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductForm>(emptyForm);
+  const [shopNameInput, setShopNameInput] = useState(getShopName());
+
+  const handleSaveShopName = () => {
+    setShopName(shopNameInput.trim() || "Coffee Corner");
+    toast.success("Shop name updated!");
+  };
 
   useEffect(() => {
     if (!authLoading && (!user || !isAdmin)) {
