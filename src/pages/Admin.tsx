@@ -237,12 +237,32 @@ export default function Admin() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>Name</Label>
+              <Label>Name (English)</Label>
               <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Iced Americano" />
             </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Name 🇨🇳 Chinese</Label>
+                <Input value={form.name_zh} onChange={(e) => setForm({ ...form, name_zh: e.target.value })} placeholder="e.g. 冰美式" />
+              </div>
+              <div className="space-y-2">
+                <Label>Name 🇻🇳 Vietnamese</Label>
+                <Input value={form.name_vi} onChange={(e) => setForm({ ...form, name_vi: e.target.value })} placeholder="e.g. Americano Đá" />
+              </div>
+            </div>
             <div className="space-y-2">
-              <Label>Description</Label>
+              <Label>Description (English)</Label>
               <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Short description" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Description 🇨🇳 Chinese</Label>
+                <Textarea value={form.description_zh} onChange={(e) => setForm({ ...form, description_zh: e.target.value })} placeholder="中文描述" />
+              </div>
+              <div className="space-y-2">
+                <Label>Description 🇻🇳 Vietnamese</Label>
+                <Textarea value={form.description_vi} onChange={(e) => setForm({ ...form, description_vi: e.target.value })} placeholder="Mô tả tiếng Việt" />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
