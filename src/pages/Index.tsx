@@ -24,8 +24,17 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [shopName, setShopNameState] = useState(getShopName());
   const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const onStorage = () => setShopNameState(getShopName());
+    window.addEventListener("storage", onStorage);
+    // Also poll localStorage in case admin is on same tab
+    const interval = setInterval(() => setShopNameState(getShopName()), 1000);
+    return () => { window.removeEventListener("storage", onStorage); clearInterval(interval); };
+  }, []);
 
   useEffect(() => {
     let mounted = true;
