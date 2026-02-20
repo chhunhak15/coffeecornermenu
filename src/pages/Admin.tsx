@@ -44,6 +44,7 @@ const emptyForm: ProductForm = {
 
 export default function Admin() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
