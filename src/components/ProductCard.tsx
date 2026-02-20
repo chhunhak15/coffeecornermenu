@@ -1,6 +1,8 @@
 import { Product } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 import type { Lang } from "@/lib/i18n";
 
 const labelConfig = {
@@ -9,7 +11,7 @@ const labelConfig = {
   bestseller: { text: "BESTSELLER", className: "bg-destructive text-destructive-foreground" },
 };
 
-export function ProductCard({ product, lang = "en" }: { product: Product; lang?: Lang }) {
+export function ProductCard({ product, lang = "en", isAdmin, onEdit }: { product: Product; lang?: Lang; isAdmin?: boolean; onEdit?: (product: Product) => void }) {
   const label = product.label ? labelConfig[product.label] : null;
 
   const displayName =
@@ -35,6 +37,16 @@ export function ProductCard({ product, lang = "en" }: { product: Product; lang?:
           <Badge className={`absolute top-3 left-3 ${label.className} text-[10px] tracking-widest font-bold px-3 py-1 rounded-full shadow-lg`}>
             {label.text}
           </Badge>
+        )}
+        {isAdmin && onEdit && (
+          <Button
+            size="icon"
+            variant="secondary"
+            className="absolute top-3 right-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+            onClick={(e) => { e.stopPropagation(); onEdit(product); }}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
         )}
       </div>
       <CardContent className="p-5">

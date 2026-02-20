@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
 import { Product } from "@/lib/types";
@@ -44,6 +44,7 @@ const emptyForm: ProductForm = {
 
 export default function Admin() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -65,6 +66,17 @@ export default function Admin() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // Auto-open edit dialog if navigated from menu page with a product
+  useEffect(() => {
+    const editProduct = location.state?.editProduct;
+    if (editProduct) {
+      handleEdit(editProduct);
+      // Clear the state so it doesn't re-open on refresh
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
 
   const fetchProducts = async () => {
     const { data } = await supabase
