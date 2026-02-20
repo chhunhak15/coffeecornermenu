@@ -51,6 +51,8 @@ export default function Admin() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductForm>(emptyForm);
   const [shopNameInput, setShopNameInput] = useState(getShopName());
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveShopName = () => {
     setShopName(shopNameInput.trim() || "Coffee Corner");
