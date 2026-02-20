@@ -38,6 +38,16 @@ export function ProductCard({ product, lang = "en", isAdmin, onEdit }: { product
             {label.text}
           </Badge>
         )}
+        {isAdmin && onEdit && (
+          <Button
+            size="icon"
+            variant="secondary"
+            className="absolute top-3 right-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+            onClick={(e) => { e.stopPropagation(); onEdit(product); }}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-2">
