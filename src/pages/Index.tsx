@@ -6,8 +6,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut, Settings } from "lucide-react";
-import logo from "@/assets/logo.jpg";
-import { getShopName } from "@/lib/shopSettings";
+import defaultLogo from "@/assets/logo.jpg";
+import { getShopName, getShopLogo } from "@/lib/shopSettings";
 import { translations, type Lang } from "@/lib/i18n";
 
 const categoryKeys = ["all", "coffee", "tea", "smoothie", "other"] as const;
