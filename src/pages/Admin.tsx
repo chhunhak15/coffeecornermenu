@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Coffee, Plus, Pencil, Trash2, LogOut, ArrowLeft, Save } from "lucide-react";
+import { Coffee, Plus, Pencil, Trash2, LogOut, ArrowLeft, Save, Upload, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { getShopName, setShopName } from "@/lib/shopSettings";
 
