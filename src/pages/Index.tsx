@@ -5,7 +5,8 @@ import { Product } from "@/lib/types";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Coffee, LogIn, LogOut, Settings } from "lucide-react";
+import { LogIn, LogOut, Settings } from "lucide-react";
+import logo from "@/assets/logo.jpg";
 
 const categories = [
 { key: "all", label: "All" },
