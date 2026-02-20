@@ -8,14 +8,15 @@ import { useNavigate } from "react-router-dom";
 import { LogIn, LogOut, Settings } from "lucide-react";
 import logo from "@/assets/logo.jpg";
 import { getShopName } from "@/lib/shopSettings";
+import { translations, type Lang } from "@/lib/i18n";
 
-const categories = [
-{ key: "all", label: "All" },
-{ key: "coffee", label: "Coffee" },
-{ key: "tea", label: "Tea" },
-{ key: "smoothie", label: "Smoothies" },
-{ key: "other", label: "Other" }] as
-const;
+const categoryKeys = ["all", "coffee", "tea", "smoothie", "other"] as const;
+
+const langOptions: { value: Lang; flag: string; label: string }[] = [
+  { value: "en", flag: "🇺🇸", label: "EN" },
+  { value: "zh", flag: "🇨🇳", label: "中文" },
+  { value: "vi", flag: "🇻🇳", label: "VI" },
+];
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all");
