@@ -79,7 +79,7 @@ const Index = () => {
           {/* Main row: logo + auth buttons */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="Shop Logo" className="h-10 w-auto" />
+              <img src={shopLogo || defaultLogo} alt="Shop Logo" className="h-10 w-auto" />
               <span className="text-xl font-bold text-foreground tracking-tight">{shopName}</span>
             </div>
             <div className="flex items-center gap-2">
