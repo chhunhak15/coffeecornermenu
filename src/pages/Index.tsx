@@ -68,8 +68,8 @@ const Index = () => {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b">
         <div className="container mx-auto flex items-center justify-between py-4 px-4">
           <div className="flex items-center gap-3">
-          <img src={logo} alt="Coffee Corner Logo" className="h-10 w-auto" />
-
+            <img src={logo} alt="Shop Logo" className="h-10 w-auto" />
+            <span className="text-xl font-bold text-foreground tracking-tight">{shopName}</span>
           </div>
           <div className="flex items-center gap-2">
             {user ?
