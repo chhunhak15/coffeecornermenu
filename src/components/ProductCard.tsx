@@ -1,6 +1,7 @@
 import { Product } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import type { Lang } from "@/lib/i18n";
 
 const labelConfig = {
   new: { text: "NEW", className: "bg-accent text-accent-foreground" },
@@ -8,15 +9,25 @@ const labelConfig = {
   bestseller: { text: "BESTSELLER", className: "bg-destructive text-destructive-foreground" },
 };
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, lang = "en" }: { product: Product; lang?: Lang }) {
   const label = product.label ? labelConfig[product.label] : null;
+
+  const displayName =
+    (lang === "zh" && product.name_zh) ? product.name_zh :
+    (lang === "vi" && product.name_vi) ? product.name_vi :
+    product.name;
+
+  const displayDesc =
+    (lang === "zh" && product.description_zh) ? product.description_zh :
+    (lang === "vi" && product.description_vi) ? product.description_vi :
+    product.description;
 
   return (
     <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300">
       <div className="relative aspect-square overflow-hidden">
         <img
           src={product.image_url}
-          alt={product.name}
+          alt={displayName}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
         />
@@ -29,8 +40,8 @@ export function ProductCard({ product }: { product: Product }) {
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <h3 className="font-semibold text-lg leading-tight text-foreground">{product.name}</h3>
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{product.description}</p>
+            <h3 className="font-semibold text-lg leading-tight text-foreground">{displayName}</h3>
+            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{displayDesc}</p>
           </div>
           <span className="text-xl font-bold text-primary whitespace-nowrap">
             ${product.price.toFixed(2)}
