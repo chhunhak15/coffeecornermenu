@@ -23,7 +23,6 @@ const Index = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [shopName, setShopNameState] = useState(getShopName());
   const [shopLogo, setShopLogoState] = useState<string | null>(getShopLogo());
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("lang") as Lang) || "en");
