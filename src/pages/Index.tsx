@@ -22,6 +22,7 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [shopName, setShopNameState] = useState(getShopName());
   const [shopLogo, setShopLogoState] = useState<string | null>(getShopLogo());
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("lang") as Lang) || "en");
@@ -42,24 +43,33 @@ const Index = () => {
     return () => { window.removeEventListener("storage", onStorage); clearInterval(interval); };
   }, []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("created_at", { ascending: false });
-        if (error) {
-          console.error("Products fetch error:", error.message, error.code, error.hint);
-          return;
-        }
-        setProducts((data as Product[]) || []);
-      } catch (e) {
-        console.error("Products fetch exception:", e);
-      } finally {
-        setLoading(false);
+  const fetchProducts = async () => {
+    setLoading(true);
+    setFetchError(false);
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .abortSignal(controller.signal);
+      clearTimeout(timeout);
+      if (error) {
+        console.error("Products fetch error:", error.message, error.code, error.hint);
+        setFetchError(true);
+        return;
       }
-    };
+      setProducts((data as Product[]) || []);
+    } catch (e) {
+      console.error("Products fetch exception:", e);
+      setFetchError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -149,6 +159,11 @@ const Index = () => {
       <main className="container mx-auto px-3 sm:px-4 pb-12 sm:pb-20">
         {loading ? (
           <p className="text-center text-muted-foreground py-12">{t.loading}</p>
+        ) : fetchError ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground mb-4">Could not load menu. Please try again.</p>
+            <Button variant="outline" onClick={fetchProducts}>Retry</Button>
+          </div>
         ) : filtered.length === 0 ? (
           <p className="text-center text-muted-foreground py-12">{t.noItems}</p>
         ) : (
