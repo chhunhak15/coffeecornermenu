@@ -75,28 +75,28 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b">
-        <div className="container mx-auto px-4 py-3">
-          {/* Main row: logo + auth buttons */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img src={shopLogo || defaultLogo} alt="Shop Logo" className="h-10 w-auto" />
-              <span className="text-xl font-bold text-foreground tracking-tight">{shopName}</span>
+        <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3">
+          {/* Main row: logo + lang + auth */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <img src={shopLogo || defaultLogo} alt="Shop Logo" className="h-8 sm:h-10 w-auto flex-shrink-0" />
+              <span className="text-base sm:text-xl font-bold text-foreground tracking-tight truncate">{shopName}</span>
             </div>
-            <div className="flex items-center gap-2">
-              {/* Language switcher — hidden on mobile, shown on sm+ */}
-              <div className="hidden sm:flex items-center gap-1 border border-border rounded-full px-1 py-1 bg-background">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+              {/* Language switcher — inline on all sizes */}
+              <div className="flex items-center gap-0.5 border border-border rounded-full px-1 py-0.5 sm:py-1 bg-background">
                 {langOptions.map((opt) => (
                   <button
                     key={opt.value}
                     onClick={() => changeLang(opt.value)}
-                    className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full transition-colors ${
+                    className={`flex items-center gap-0.5 text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-colors ${
                       lang === opt.value
                         ? "bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     <span>{opt.flag}</span>
-                    <span>{opt.label}</span>
+                    <span className="hidden sm:inline">{opt.label}</span>
                   </button>
                 ))}
               </div>
@@ -104,58 +104,41 @@ const Index = () => {
               {user ? (
                 <>
                   {isAdmin && (
-                    <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="gap-2">
-                      <Settings className="h-4 w-4" /> {t.dashboard}
+                    <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="gap-1 sm:gap-2 h-8 px-2 sm:px-3 text-xs sm:text-sm">
+                      <Settings className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      <span className="hidden sm:inline">{t.dashboard}</span>
                     </Button>
                   )}
-                  <Button variant="ghost" size="sm" onClick={signOut} className="gap-2">
-                    <LogOut className="h-4 w-4" /> {t.signOut}
+                  <Button variant="ghost" size="sm" onClick={signOut} className="gap-1 sm:gap-2 h-8 px-2 sm:px-3 text-xs sm:text-sm">
+                    <LogOut className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="hidden sm:inline">{t.signOut}</span>
                   </Button>
                 </>
               ) : (
-                <Button variant="outline" size="sm" onClick={() => navigate("/login")} className="gap-2">
-                  <LogIn className="h-4 w-4" /> {t.adminLogin}
+                <Button variant="outline" size="sm" onClick={() => navigate("/login")} className="gap-1 sm:gap-2 h-8 px-2 sm:px-3 text-xs sm:text-sm">
+                  <LogIn className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline">{t.adminLogin}</span>
                 </Button>
               )}
-            </div>
-          </div>
-
-          {/* Language switcher — mobile only, shown below auth buttons */}
-          <div className="flex sm:hidden justify-end mt-2">
-            <div className="flex items-center gap-1 border border-border rounded-full px-1 py-1 bg-background">
-              {langOptions.map((opt) => (
-                <button
-                  key={opt.value}
-                  onClick={() => changeLang(opt.value)}
-                  className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full transition-colors ${
-                    lang === opt.value
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <span>{opt.flag}</span>
-                  <span>{opt.label}</span>
-                </button>
-              ))}
             </div>
           </div>
         </div>
       </header>
 
-      <section className="py-16 px-4 text-center">
-        <h2 className="text-5xl font-bold text-foreground mb-4">{t.menuTitle}</h2>
-        <p className="text-lg text-muted-foreground max-w-md mx-auto">{t.menuSubtitle}</p>
+      <section className="py-8 sm:py-16 px-4 text-center">
+        <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-2 sm:mb-4">{t.menuTitle}</h2>
+        <p className="text-sm sm:text-lg text-muted-foreground max-w-md mx-auto">{t.menuSubtitle}</p>
       </section>
 
-      <div className="container mx-auto px-4 mb-8">
-        <div className="flex flex-wrap gap-2 justify-center">
+      <div className="container mx-auto px-3 sm:px-4 mb-6 sm:mb-8">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
           {categoryKeys.map((key) => (
             <Button
               key={key}
               variant={activeCategory === key ? "default" : "secondary"}
               size="sm"
               onClick={() => setActiveCategory(key)}
-              className="rounded-full px-5"
+              className="rounded-full px-3 sm:px-5 text-xs sm:text-sm h-8 sm:h-9"
             >
               {t.categories[key]}
             </Button>
@@ -163,13 +146,13 @@ const Index = () => {
         </div>
       </div>
 
-      <main className="container mx-auto px-4 pb-20">
+      <main className="container mx-auto px-3 sm:px-4 pb-12 sm:pb-20">
         {loading ? (
           <p className="text-center text-muted-foreground py-12">{t.loading}</p>
         ) : filtered.length === 0 ? (
           <p className="text-center text-muted-foreground py-12">{t.noItems}</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {filtered.map((product) => (
               <ProductCard
                 key={product.id}
