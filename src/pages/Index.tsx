@@ -43,24 +43,33 @@ const Index = () => {
     return () => { window.removeEventListener("storage", onStorage); clearInterval(interval); };
   }, []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("created_at", { ascending: false });
-        if (error) {
-          console.error("Products fetch error:", error.message, error.code, error.hint);
-          return;
-        }
-        setProducts((data as Product[]) || []);
-      } catch (e) {
-        console.error("Products fetch exception:", e);
-      } finally {
-        setLoading(false);
+  const fetchProducts = async () => {
+    setLoading(true);
+    setFetchError(false);
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .abortSignal(controller.signal);
+      clearTimeout(timeout);
+      if (error) {
+        console.error("Products fetch error:", error.message, error.code, error.hint);
+        setFetchError(true);
+        return;
       }
-    };
+      setProducts((data as Product[]) || []);
+    } catch (e) {
+      console.error("Products fetch exception:", e);
+      setFetchError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProducts();
   }, []);
 
